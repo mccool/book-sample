@@ -1,0 +1,14 @@
+<div *ngIf="book$ | async as book" class="row">
+  <div class="col">
+    <h2>{{book.title}} <span class="rating">Rating: <i class="fa fa-star"></i></span></h2>
+    <h5>By: {{book.author}}</h5>
+    <p>Published {{book.date}} | {{book.pages}} pages</p>
+
+    <p><strong>Summary</strong></p>
+    <p>{{book.summary}}</p>
+
+    <p>
+      <button class="btn btn-primary">Add to Cart ${{book.price}}</button>
+    </p>
+  </div>
+</div>

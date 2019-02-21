@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card-header">
+    Books List
+  </div>
+  <div class="list-group list-group-flush">
+    <div (click)="selectBook(book)"
+         *ngFor="let book of books"
+         class="list-group-item list-group-item-action flex-column align-items-start"
+    >
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{book.title}}</h5>
+        <small class="rating">Rating: {{book.rating}}</small>
+      </div>
+    </div>
+
+  </div>
+</div>
