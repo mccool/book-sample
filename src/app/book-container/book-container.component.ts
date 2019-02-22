@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { BooksService } from '../books.service';
+import { Component } from '@angular/core';
+import { BookEntity, BooksService } from '../books.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-container',
   templateUrl: './book-container.component.html',
   styleUrls: [ './book-container.component.scss' ]
 })
-export class BookContainerComponent implements OnInit {
-  books: any;
+export class BookContainerComponent {
 
-  constructor(private booksService: BooksService) {
+  books$ = this.booksService.getBooks();
+  selectedBook$ = this.booksService.selected;
+
+  constructor(private booksService: BooksService, private router: Router) {
   }
 
-  ngOnInit() {
-    this.books = this.booksService.getBooks().subscribe();
+  onSelected(book: BookEntity) {
+    this.router.navigate([ `/books/${book.isbn}` ]);
   }
-
 }

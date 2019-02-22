@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { bookData } from './books.data';
 import { of } from 'rxjs/internal/observable/of';
-import { Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+import { tap } from 'rxjs/internal/operators/tap';
 
 export interface BookEntity {
   isbn: string;
@@ -19,10 +20,7 @@ export interface BookEntity {
   providedIn: 'root'
 })
 export class BooksService {
-  selected: BookEntity;
-
-  constructor() {
-  }
+  selected = new BehaviorSubject<BookEntity>(null);
 
   getBooks(): Observable<BookEntity[]> {
     return of(bookData).pipe(delay(700));
@@ -30,6 +28,6 @@ export class BooksService {
 
   getBook(isbn: string): Observable<BookEntity> {
     const book = bookData.find(b => b.isbn === isbn);
-    return of(book);
+    return of(book).pipe(tap(() => this.selected.next(book)));
   }
 }

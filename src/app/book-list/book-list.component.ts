@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BookEntity } from '../books.service';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BookEntity, BooksService } from '../books.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,11 +10,10 @@ import { Router } from '@angular/router';
 })
 export class BookListComponent {
   @Input() books: BookEntity[];
-
-  constructor(private router: Router) {
-  }
+  @Input() selectedBook: BookEntity;
+  @Output() selected = new EventEmitter();
 
   selectBook(book: BookEntity) {
-    this.router.navigate([ `/books/${book.isbn}` ]);
+    this.selected.emit(book);
   }
 }

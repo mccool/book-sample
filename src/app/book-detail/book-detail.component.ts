@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BookEntity, BooksService } from '../books.service';
 import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
+import { CartService } from '../cart.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -11,10 +13,21 @@ import { Observable } from 'rxjs';
 export class BookDetailComponent implements OnInit {
   book$: Observable<BookEntity>;
 
-  constructor(private booksService: BooksService, private route: ActivatedRoute) {
+  constructor(private booksService: BooksService, private route: ActivatedRoute, private cartService: CartService) {
   }
 
   ngOnInit() {
+    this.book$ = this.route.paramMap.pipe(
+      map(param => param.get('id')),
+      switchMap(id => this.booksService.getBook(id))
+    );
   }
 
+  ratingToLength(num: number) {
+    return new Array(num);
+  }
+
+  addToCart(book: BookEntity) {
+    this.cartService.add(book);
+  }
 }
